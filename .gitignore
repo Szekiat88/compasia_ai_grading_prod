@@ -1,0 +1,33 @@
+# logs
+*.log
+logs/
+log/
+
+# pytorch models / weights
+*.pt
+*.pth
+*.ckpt
+weights/
+models/
+
+# datasets / outputs
+data/
+datasets/
+runs/
+outputs/
+
+# python junk
+__pycache__/
+*.pyc
+
+# env / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# mac / editor
+.DS_Store
+.vscode/
+.idea/
+ 

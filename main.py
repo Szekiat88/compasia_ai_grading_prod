@@ -29,7 +29,7 @@ import torch
 
 
 # Load environment variables from the .env file
-load_dotenv(dotenv_path='/home/ubuntu/ai-grading-uat/db.env')
+load_dotenv(dotenv_path=os.getenv("DB_ENV_PATH", "db.env"))
 
 app = Flask(__name__)
 
@@ -45,8 +45,8 @@ def health():
     return jsonify({"status": "healthy", "message": "API is up and running!"}), 200
 
 # SQS queue URL and ARN (replace these with your actual values)
-SQS_QUEUE_URL = 'https://sqs.ap-southeast-1.amazonaws.com/046498959242/ai-grading-s3-prod'
-SQS_REGION = 'ap-southeast-1'
+SQS_QUEUE_URL = os.getenv("SQS_QUEUE_URL")
+SQS_REGION = os.getenv("SQS_REGION")
 
 # Create an SQS client using boto3
 sqs_client = boto3.client('sqs', region_name=SQS_REGION)
@@ -66,13 +66,13 @@ back_defect_threshold = 12
 
 # model
 imgsz = 960
-model_path = "/home/ubuntu/ai-grading-uat/best_5Dec_960.pt"
+model_path = os.getenv("MODEL_PATH_FRONT")
 # model_back_path = "/home/ubuntu/ai-grading-uat/best_333_imagesModel.pt"
-model_back_path = "/home/ubuntu/ai-grading-uat/back_6Aug.pt"
+model_back_path = os.getenv("MODEL_PATH_BACK")
 
 # model_tb_path = "/home/ubuntu/ai-grading-uat/tb_1280_300images.pt"
-model_tb_path = "/home/ubuntu/ai-grading-uat/tb_best_yolov12.pt"
-model_lr_path = "/home/ubuntu/ai-grading-uat/lr_1280_300images.pt"
+model_tb_path = os.getenv("MODEL_PATH_TB")
+model_lr_path = os.getenv("MODEL_PATH_LR")
 
 model_front = YOLO(model_path)
 model_topbottom = YOLO(model_tb_path)
@@ -82,7 +82,7 @@ model_back = YOLO(model_back_path)
 br_class_back = BrightnessClassifier()
 
 # base url to return the plotted img url
-base_url = "https://aigradingfiles.compasia.com/"
+base_url = os.getenv("BASE_URL")
 
 # Function to create a database connection
 def get_db_connection():
